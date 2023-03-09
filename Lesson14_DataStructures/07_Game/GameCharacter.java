@@ -1,3 +1,4 @@
+
 /*
 Copyright Ann Barcomb and Emily Marasco, 2023
 Licensed under GPL v3
@@ -11,10 +12,13 @@ import java.util.*;
 abstract class GameCharacter {
     enum CharacterClasses {
         WARRIOR {
+            public String asString() { return "Warrior"; }
         },
         HEALER {
+            public String asString() { return "Healer"; }
         },
         ROGUE {
+            public String asString() { return "Rogue"; }
         };
         public abstract String asString();
     }
@@ -32,7 +36,7 @@ abstract class GameCharacter {
     public int getAttackPriority() { return this.ATTACK_PRIORITY; }
     public int getAttackDamage() { return this.ATTACK_DAMAGE; }
     public int getLifeforce() { return this.lifeforce; }
-    public String getCharacterClass() { 
+    public String getCharacterClass() {
         String theEnum = CHARACTER_CLASS.name();
         return CharacterClasses.valueOf(theEnum).asString();
     }
@@ -47,14 +51,23 @@ abstract class GameCharacter {
         } else if (name.equals("HEALER")) {
             return CharacterClasses.HEALER;
         }
-        return CharacterClasses.ROGUE;
+        return CharacterClasses .ROGUE;
     }
-    
+
     public GameCharacter(String characterName, String characterClass, int attackPriority, int attackDamage) throws IllegalArgumentException {
         this.characterName = characterName;
         this.CHARACTER_CLASS = getValidCharacterClass(characterClass);
         this.validateAndRecordAttackPriority(attackPriority);
-        this.ATTACK_PRIORITY = attackPriority; 
-        this.ATTACK_DAMAGE = attackDamage; 
+        this.ATTACK_PRIORITY = attackPriority;
+        this.ATTACK_DAMAGE = attackDamage;
     }
+
+    private void validateAndRecordAttackPriority(int priority) throws IllegalArgumentException {
+        if (attackPriorities.contains(priority)) {
+            throw new IllegalArgumentException("Attack priority " + priority + " already exists");
+        } else {
+            attackPriorities.add(priority);
+        }
+    }
+
 }
